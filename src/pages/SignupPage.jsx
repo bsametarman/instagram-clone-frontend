@@ -23,7 +23,7 @@ const SignupPage = () => {
         username: '',
         email: '',
         password: '',
-        name: '',
+        firstName: '',
         lastName: ''
     });
     const [error, setError] = useState(null);
@@ -88,7 +88,7 @@ const SignupPage = () => {
 
                     <FormControl isRequired>
                         <FormLabel>First Name</FormLabel>
-                        <Input name="name" placeholder="Your first name" value={formData.name} onChange={handleChange} />
+                        <Input name="firstName" placeholder="Your first name" value={formData.firstName} onChange={handleChange} />
                     </FormControl>
 
                     <FormControl isRequired>
