@@ -1,6 +1,6 @@
 import apiClient from './axiosConfig';
 
-const getAllUsers = (searchTerm, page = 0, size = 12, sort = 'createdAt,desc') => {
+const getAllUsers = (searchTerm, page = 0, size = 12, sort = 'createdDate,desc') => {
     return apiClient.get(`/users/all`, {
         params: {
             searchTerm,
@@ -11,7 +11,7 @@ const getAllUsers = (searchTerm, page = 0, size = 12, sort = 'createdAt,desc') =
     });
 }
 
-const getAllActiveUsers = (searchTerm, page = 0, size = 12, sort = 'createdAt,desc') => {
+const getAllActiveUsers = (searchTerm, page = 0, size = 12, sort = 'createdDate,desc') => {
     return apiClient.get(`/users`, {
         params: {
             searchTerm,
