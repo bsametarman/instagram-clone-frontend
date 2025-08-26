@@ -9,6 +9,7 @@ import SigninPage from './pages/SignInPage';
 import SignupPage from './pages/SignupPage';
 import FeedPage from './pages/FeedPage';
 import ProfilePage from './pages/ProfilePage';
+import UsersListPage from './pages/UserListPage';
 import './App.css'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/feed" element={<FeedPage />} />
               <Route path="/profile/:username" element={<ProfilePage />} />
+              <Route path="/users" element={<UsersListPage />} />
             </Routes>
           </main>
         </Box>
