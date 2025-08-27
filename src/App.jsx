@@ -10,6 +10,7 @@ import SignupPage from './pages/SignupPage';
 import FeedPage from './pages/FeedPage';
 import ProfilePage from './pages/ProfilePage';
 import UsersListPage from './pages/UserListPage';
+import PostDetailPage from './pages/PostDetailPage';
 import './App.css'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route path="/feed" element={<FeedPage />} />
               <Route path="/profile/:username" element={<ProfilePage />} />
               <Route path="/users" element={<UsersListPage />} />
+              <Route path="/p/:postId" element={<PostDetailPage />} />
             </Routes>
           </main>
         </Box>
