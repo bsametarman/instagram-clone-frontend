@@ -36,6 +36,7 @@ const ProfilePage = () => {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const [profileUser, setProfileUser] = useState(null);
+    const [following, setFollowing] = useState(null);
     const [posts, setPosts] = useState([]);
     const [activeTab, setActiveTab] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
@@ -60,7 +61,16 @@ const ProfilePage = () => {
                 setProfileLoading(false);
             }
         };
+        const isFollowing = async () => {
+            try {
+                const response = await profileService.isFollowing(username);
+                setFollowing(response.data);
+            } catch (err) {
+                setError('Following state not known.');
+            }
+        };
         fetchUserProfile();
+        isFollowing();
     }, [username]);
 
     const handleProfileUpdate = (updatedUserData) => {
@@ -68,6 +78,23 @@ const ProfilePage = () => {
             ...prevUser,
             ...updatedUserData,
         }));
+    };
+
+    const handleFollowStateUpdate = (newFollowingStatus) => {
+        setFollowing(newFollowingStatus);
+
+        setProfileUser(prevUser => {
+            if (!prevUser) return null;
+
+            const newFollowerCount = newFollowingStatus
+                ? prevUser.followerCount + 1
+                : prevUser.followerCount - 1;
+
+            return {
+                ...prevUser,
+                followerCount: newFollowerCount
+            };
+        });
     };
 
     const fetchPosts = useCallback(async (isNewQuery) => {
@@ -116,13 +143,13 @@ const ProfilePage = () => {
 
     return (
         <Container maxW="container.lg" py={8}>
-            {profileUser && <ProfileHeader profileUser={profileUser} onProfileUpdate={handleProfileUpdate} />}
+            {profileUser && <ProfileHeader profileUser={profileUser} onProfileUpdate={handleProfileUpdate} isFollowing={following} onFollowUpdate={handleFollowStateUpdate} />}
 
             <Flex my={8} direction={{ base: 'column', md: 'row' }} gap={4}>
                 <Box flex="1">
                     <InputGroup>
                         <InputLeftElement pointerEvents="none">
-                            <SearchIcon color={"blue"} />
+                            <SearchIcon color={"blue.500"} />
                         </InputLeftElement>
                         <Input
                             placeholder={`Search in ${username}'s content...`}
