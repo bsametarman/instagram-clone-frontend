@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Flex,
@@ -9,15 +9,19 @@ import {
     VStack,
     Button,
     useDisclosure,
-    useColorModeValue
+    useColorModeValue,
+    useToast,
 } from '@chakra-ui/react';
 import { useAuth } from '../../context/AuthContext';
 import EditProfileModal from './EditProfileModal';
+import profileService from '../../api/profileService';
 
-const ProfileHeader = ({ profileUser, onProfileUpdate }) => {
-    const { user: currentUser } = useAuth();
+const ProfileHeader = ({ profileUser, onProfileUpdate, isFollowing, onFollowUpdate }) => {
+    const { user: currentUser, isLoggedIn } = useAuth();
     const isOwnProfile = currentUser?.id === profileUser?.id;
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [isLoadingFollow, setIsLoadingFollow] = useState(false);
+    const toast = useToast();
 
     const statLabelColor = useColorModeValue('blue.500', 'black');
 
@@ -27,6 +31,44 @@ const ProfileHeader = ({ profileUser, onProfileUpdate }) => {
             <Text fontSize="sm" color={statLabelColor}>{label}</Text>
         </VStack>
     );
+
+    useEffect(() => {
+        profileUser.followerCount
+    }, [isFollowing]);
+
+    const handleFollow = async () => {
+        if (!isLoggedIn) {
+            toast({
+                title: 'Please log in to follow.',
+                status: 'warning',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        setIsLoadingFollow(true);
+        try {
+            if (isFollowing) {
+                await profileService.unfollowUser(profileUser.username);
+            } else {
+                await profileService.followUser(profileUser.username);
+            }
+
+            onFollowUpdate(!isFollowing);
+        } catch (error) {
+            console.error("Follow/Unfollow failed", error);
+            toast({
+                title: 'An error occurred.',
+                description: "Could not update follow status.",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+        } finally {
+            setIsLoadingFollow(false);
+        }
+    };
 
     return (
         <>
@@ -55,6 +97,16 @@ const ProfileHeader = ({ profileUser, onProfileUpdate }) => {
                         <Heading as="h1" size="lg" mr={{ md: 4 }}>{profileUser.username}</Heading>
                         {isOwnProfile && (
                             <Button size="sm" variant="outline" onClick={onOpen}>Edit Profile</Button>
+                        )}
+                        {!isOwnProfile && isFollowing === true && (
+                            <Button size="sm" colorScheme="red" color={"white"} onClick={handleFollow} isLoading={isLoadingFollow}>
+                                Unfollow
+                            </Button>
+                        )}
+                        {!isOwnProfile && isFollowing === false && (
+                            <Button size="sm" colorScheme="cyan" onClick={handleFollow} isLoading={isLoadingFollow}>
+                                Follow
+                            </Button>
                         )}
                     </Flex>
 

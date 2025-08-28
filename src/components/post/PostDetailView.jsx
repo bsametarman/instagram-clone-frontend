@@ -28,7 +28,6 @@ const PostDetailView = ({ post, onPostDelete }) => {
             });
             return;
         }
-
         setIsLikeLoading(true);
 
         try {
