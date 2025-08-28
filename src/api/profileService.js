@@ -20,12 +20,17 @@ const getFollowing = (username, page = 0, size = 20) => {
     return apiClient.get(`/users/${username}/followings`, { params: { page, size } });
 };
 
+const isFollowing = (username) => {
+    return apiClient.get(`/users/${username}/is-following`);
+}
+
 const profileService = {
     getUserProfile,
     followUser,
     unfollowUser,
     getFollowers,
     getFollowing,
+    isFollowing,
 };
 
 export default profileService;
