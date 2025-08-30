@@ -22,6 +22,7 @@ import {
     Select,
     useColorMode,
     Heading,
+    useDisclosure,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
@@ -30,6 +31,7 @@ import useDebounce from '../hooks/useDebounce';
 import ProfileHeader from '../components/user/ProfileHeader';
 import PostGrid from '../components/post/PostGrid';
 import profileService from './../api/profileService';
+import FollowListModal from '../components/user/FollowListModal';
 
 const ProfilePage = () => {
     const { username } = useParams();
@@ -47,6 +49,8 @@ const ProfilePage = () => {
     const [postsLoading, setPostsLoading] = useState(false);
     const [error, setError] = useState(null);
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
+    const [modalMode, setModalMode] = useState('followers');
+    const { isOpen: isFollowModalOpen, onOpen: onFollowModalOpen, onClose: onFollowModalClose } = useDisclosure();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -132,6 +136,11 @@ const ProfilePage = () => {
         }
     }, [username, activeTab, debouncedSearchTerm, page, hasMore, postsLoading, sort]);
 
+    const handleOpenFollowModal = (mode) => {
+        setModalMode(mode);
+        onFollowModalOpen();
+    };
+
     useEffect(() => {
         if (!profileLoading) {
             fetchPosts(true);
@@ -143,7 +152,7 @@ const ProfilePage = () => {
 
     return (
         <Container maxW="container.lg" py={8}>
-            {profileUser && <ProfileHeader profileUser={profileUser} onProfileUpdate={handleProfileUpdate} isFollowing={following} onFollowUpdate={handleFollowStateUpdate} />}
+            {profileUser && <ProfileHeader profileUser={profileUser} onProfileUpdate={handleProfileUpdate} isFollowing={following} onFollowUpdate={handleFollowStateUpdate} onOpenFollowModal={handleOpenFollowModal} />}
 
             <Flex my={8} direction={{ base: 'column', md: 'row' }} gap={4}>
                 <Box flex="1">
@@ -216,6 +225,16 @@ const ProfilePage = () => {
                         Load More
                     </Button>
                 </Center>
+            )}
+            {profileUser && (
+                <FollowListModal
+                    isOpen={isFollowModalOpen}
+                    onClose={onFollowModalClose}
+                    username={profileUser.username}
+                    initialMode={modalMode}
+                    followersCount={profileUser.followerCount}
+                    followingCount={profileUser.followingCount}
+                />
             )}
         </Container>
     );
