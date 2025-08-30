@@ -42,12 +42,19 @@ const getFeedPosts = (searchTerm, page = 0, size = 12, sort = 'createdAt,desc') 
     });
 };
 
+const getMainPageFeedPosts = (searchTerm, page = 0, size = 12, sort = 'createdAt,desc') => {
+    return apiClient.get('/posts/main', {
+        params: { searchTerm, page, size, sort },
+    });
+};
+
 const postService = {
     getPostsByUser,
     getPostById,
     deletePost,
     createPost,
     getFeedPosts,
+    getMainPageFeedPosts,
 };
 
 export default postService;
