@@ -16,7 +16,7 @@ import { useAuth } from '../../context/AuthContext';
 import EditProfileModal from './EditProfileModal';
 import profileService from '../../api/profileService';
 
-const ProfileHeader = ({ profileUser, onProfileUpdate, isFollowing, onFollowUpdate }) => {
+const ProfileHeader = ({ profileUser, onProfileUpdate, isFollowing, onFollowUpdate, onOpenFollowModal }) => {
     const { user: currentUser, isLoggedIn } = useAuth();
     const isOwnProfile = currentUser?.id === profileUser?.id;
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,8 +25,16 @@ const ProfileHeader = ({ profileUser, onProfileUpdate, isFollowing, onFollowUpda
 
     const statLabelColor = useColorModeValue('blue.500', 'black');
 
-    const Stat = ({ label, value }) => (
-        <VStack spacing={0}>
+    const Stat = ({ label, value, onClick }) => (
+        <VStack
+            spacing={0}
+            onClick={onClick}
+            cursor={onClick ? 'pointer' : 'default'}
+            p={2}
+            borderRadius="md"
+            _hover={onClick ? { bg: useColorModeValue('blue.100', 'blue.400') } : {}}
+            transition="background-color 0.2s"
+        >
             <Text fontWeight="bold" fontSize="lg">{value}</Text>
             <Text fontSize="sm" color={statLabelColor}>{label}</Text>
         </VStack>
@@ -112,8 +120,16 @@ const ProfileHeader = ({ profileUser, onProfileUpdate, isFollowing, onFollowUpda
 
                     <HStack spacing={8}>
                         <Stat value={profileUser.postCount} label="Posts" />
-                        <Stat value={profileUser.followerCount || 0} label="Followers" />
-                        <Stat value={profileUser.followingCount || 0} label="Following" />
+                        <Stat
+                            value={profileUser.followerCount || 0}
+                            label="Followers"
+                            onClick={() => onOpenFollowModal('followers')}
+                        />
+                        <Stat
+                            value={profileUser.followingCount || 0}
+                            label="Following"
+                            onClick={() => onOpenFollowModal('following')}
+                        />
                     </HStack>
 
                     <VStack spacing={1} align={{ base: 'center', md: 'flex-start' }}>
