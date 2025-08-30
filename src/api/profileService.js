@@ -17,7 +17,7 @@ const getFollowers = (username, page = 0, size = 20) => {
 };
 
 const getFollowing = (username, page = 0, size = 20) => {
-    return apiClient.get(`/users/${username}/followings`, { params: { page, size } });
+    return apiClient.get(`/users/${username}/following`, { params: { page, size } });
 };
 
 const isFollowing = (username) => {
