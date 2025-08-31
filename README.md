@@ -1,12 +1,59 @@
-# React + Vite
+# Instagram Clone Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a front-end clone of Instagram, built with React. It aims to replicate the core features and user interface of the popular social media platform.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **User Authentication:** Sign up, sign in, and sign out.
+*   **Post Management:** Create, view, and delete posts.
+*   **Feed:** View a feed of posts from users you follow.
+*   **Profiles:** View user profiles with their posts and follower/following counts.
+*   **Follow/Unfollow:** Follow and unfollow other users.
+*   **Likes and Comments:** Like and comment on posts.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+*   **React:** A JavaScript library for building user interfaces.
+*   **Vite:** A fast build tool for modern web projects.
+*   **React Router:** For handling routing within the application.
+*   **Chakra UI:** A component library for building accessible and responsive user interfaces.
+*   **Axios:** A promise-based HTTP client for making requests to the backend API.
+
+## Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+*   Node.js and npm installed on your machine.
+
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/your_username/instagram-clone-frontend.git
+    ```
+2.  Install NPM packages
+    ```sh
+    npm install
+    ```
+3.  Start the development server
+    ```sh
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:5173`.
+
+## Screenshots
+
+| HomePage | HomePageLight | FeedPage |
+| --- | --- | --- |
+| ![HomePage](./.github/assets/0.jpg) | ![HomePageLight](./.github/assets/1.jpg) | ![FeedPage](./.github/assets/2.jpg) |
+
+| FeedPageSearch | UserListPage | UserListPageLight |
+| --- | --- | --- |
+| ![FeedPageSearch](./.github/assets/3.jpg) | ![UserListPage](./.github/assets/4.jpg) | ![UserListPageLight](./.github/assets/5.jpg) |
+
+| ProfilePage | EditProfileModal | FollowModal |
+| --- | --- | --- |
+| ![ProfilePage](./.github/assets/6.jpg) | ![EditProfileModal](./.github/assets/7.jpg) | ![FollowModal](./.github/assets/8.jpg) |
