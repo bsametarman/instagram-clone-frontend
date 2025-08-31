@@ -35,7 +35,7 @@ const UserCard = ({ user }) => {
     const borderColor = useColorModeValue('blue.500', 'blue.500');
     const subtleTextColor = useColorModeValue('gray.600', 'gray.400');
     const [imageError, setImageError] = useState(false);
-    const displayName = user.name || user.username;
+    const displayName = user.fisrtName || user.username;
 
     return (
         <Box
@@ -73,7 +73,7 @@ const UserCard = ({ user }) => {
 
             <VStack p={4} spacing={2} align="flex-start">
                 <Heading as="h3" size="md" noOfLines={1}>
-                    {user.name} {user.lastName}
+                    {user.firstName} {user.lastName}
                 </Heading>
                 <Text color={subtleTextColor} fontSize="sm" mt="-1 !important">
                     @{user.username}
